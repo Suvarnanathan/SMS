@@ -1,0 +1,91 @@
+@import url("//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css");
+.login-block {
+    background: hsl(236, 60%, 33%); /* fallback for old browsers */
+    background: -webkit-linear-gradient(
+        to bottom,
+        #ffb88c,
+        #de6262
+    ); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to bottom, #91b4e9, #9095e2);
+    float: left;
+    width: 100%;
+    padding: 50px 0;
+}
+.banner-sec {
+    background: url(https://i0.wp.com/www.lovelycoding.org/wp-content/uploads/2021/01/Sports-Goods-Management-System.jpg?fit=640%2C427&ssl=1)
+        no-repeat left bottom;
+    background-size: auto;
+    min-height: 500px;
+    border-radius: 0 10px 10px 0;
+    padding: 0;
+    width: 100%;
+    margin-right: 45px;
+}
+.container {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 15px 20px 0px rgba(0, 0, 0, 0.1);
+}
+
+.login-sec {
+    padding: 50px 30px;
+    position: relative;
+    margin-right: 50px;
+}
+.login-sec .copy-text {
+    position: absolute;
+    width: 80%;
+    bottom: 20px;
+    font-size: 13px;
+    text-align: center;
+}
+.login-sec .copy-text i {
+    color: #feb58a;
+}
+.login-sec .copy-text a {
+    color: #e36262;
+}
+.login-sec h2 {
+    margin-bottom: 30px;
+    font-weight: 800;
+    font-size: 30px;
+    color: #4940c5;
+}
+.login-sec h2:after {
+    content: " ";
+    width: 100px;
+    height: 5px;
+    background: #4744e4;
+    display: block;
+    margin-top: 20px;
+    border-radius: 3px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.btn-login {
+    background: #1e4eeb;
+    color: #fff;
+    font-weight: 600;
+}
+.banner-text {
+    width: 70%;
+    position: absolute;
+    bottom: 40px;
+    padding-left: 20px;
+}
+.banner-text h2 {
+    color: rgb(29, 57, 116);
+    font-weight: 600;
+}
+.banner-text h2:after {
+    content: " ";
+    width: 100px;
+    height: 5px;
+    background: #fff;
+    display: block;
+    margin-top: 20px;
+    border-radius: 3px;
+}
+.banner-text p {
+    color: #fff;
+}
