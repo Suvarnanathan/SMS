@@ -1,5 +1,5 @@
 # SMS
-Run git clone https://github.com/Suvarnanathan/moh_backend.git
+Run git clone https://github.com/Suvarnanathan/SMS.git
 Create a MySQL database for the project create database moh;
 From the projects root run cp .env.example .env
 Configure your .env file
