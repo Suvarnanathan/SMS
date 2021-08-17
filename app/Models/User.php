@@ -71,7 +71,6 @@ class User extends Authenticatable
         'last_name',
         'email',
         'password',
-        'student_id',
         'activated',
         'token',
         'signup_ip_address',

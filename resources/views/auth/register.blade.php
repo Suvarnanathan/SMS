@@ -56,15 +56,6 @@ input[type=text]:focus, input[type=password]:focus {
                                         <strong>{{ $errors->first('email') }}</strong>
                                     </span>
                                 @endif
-                                <label for="student_id" class="col-md-4 col-form-label text-md-right">Student ID</label>
-
-<input id="student_id" type="text" class="form-control{{ $errors->has('student_id') ? ' is-invalid' : '' }}" name="student_id" required>
-
-@if ($errors->has('student_id'))
-    <span class="invalid-feedback">
-        <strong>{{ $errors->first('student_id') }}</strong>
-    </span>
-@endif
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
 
                                 <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>

@@ -29,7 +29,6 @@ class UsersTableSeeder extends Seeder
                 'name'                           => 'Admin',
                 'first_name'                     => 'Harry',
                 'last_name'                      => 'Potter',
-                'student_id'                     =>'Lecturer',
                 'email'                          => $seededAdminEmail,
                 'password'                       => Hash::make('password'),
                 'token'                          => str_random(64),
@@ -49,7 +48,6 @@ class UsersTableSeeder extends Seeder
                 'name'                           => 'User',
                 'first_name'                     => 'Hermione',
                 'last_name'                      => 'Granger',
-                'student_id'                     =>'Ass.Lecturer',
                 'email'                          => 'user@user.com',
                 'password'                       => Hash::make('password'),
                 'token'                          => str_random(64),
@@ -61,14 +59,5 @@ class UsersTableSeeder extends Seeder
             $user->attachRole($userRole);
             $user->save();
         }
-
-        // Seed test users
-        // $user = factory(App\Models\Profile::class, 5)->create();
-        // $users = User::All();
-        // foreach ($users as $user) {
-        //     if (!($user->isAdmin()) && !($user->isUnverified())) {
-        //         $user->attachRole($userRole);
-        //     }
-        // }
     }
 }

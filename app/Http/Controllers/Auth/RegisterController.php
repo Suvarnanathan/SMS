@@ -71,7 +71,6 @@ public function newMember()
             $data,
             [
                 'name'                  => 'required|max:255|unique:users|alpha_dash',
-                'student_id'                  => 'required|max:255|unique:users|alpha_dash',
                 'first_name'            => 'alpha_dash',
                 'last_name'             => 'alpha_dash',
                 'email'                 => 'required|email|max:255|unique:users',
@@ -112,7 +111,6 @@ public function newMember()
             'name'              => strip_tags($data['name']),
             'first_name'        => strip_tags($data['first_name']),
             'last_name'         => strip_tags($data['last_name']),
-            'student_id'         => strip_tags($data['student_id']),
             'email'             => $data['email'],
             'password'          => Hash::make($data['password']),
             'token'             => str_random(64),
