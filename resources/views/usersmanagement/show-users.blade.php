@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('template_title')
     {!! trans('usersmanagement.showing-all-users') !!}
@@ -8,6 +8,8 @@
     @if(config('usersmanagement.enabledDatatablesJs'))
         <link rel="stylesheet" type="text/css" href="{{ config('usersmanagement.datatablesCssCDN') }}">
     @endif
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
     <style type="text/css" media="screen">
         .users-table {
             border: 0;
@@ -61,12 +63,13 @@
 
                     <div class="card-body">
 
-                        @if(config('usersmanagement.enableSearchUsers'))
-                            @include('partials.search-users-form')
-                        @endif
+                    <div class="form-group">
+                    <input type="text" class="form-controller" id="search" name="search"></input>
+                    </div>
+
 
                         <div class="table-responsive users-table">
-                            <table class="table table-striped table-sm data-table">
+                            <table class="table table-striped table-sm data-table" id="users">
                                 <caption id="user_count">
                                     {{ trans_choice('usersmanagement.users-table.caption', 1, ['userscount' => $users->count()]) }}
                                 </caption>
@@ -86,52 +89,9 @@
                                     </tr>
                                 </thead>
                                 <tbody id="users_table">
-                                    @foreach($users as $user)
-                                        <tr>
-                                            <td>{{$user->id}}</td>
-                                            <td>{{$user->name}}</td>
-                                            <td class="hidden-xs"><a href="mailto:{{ $user->email }}" title="email {{ $user->email }}">{{ $user->email }}</a></td>
-                                            <td class="hidden-xs">{{$user->first_name}}</td>
-                                            <td class="hidden-xs">{{$user->last_name}}</td>
-                                            <td>
-                                                @foreach ($user->roles as $user_role)
-                                                    @if ($user_role->name == 'User')
-                                                        @php $badgeClass = 'primary' @endphp
-                                                    @elseif ($user_role->name == 'Admin')
-                                                        @php $badgeClass = 'warning' @endphp
-                                                    @elseif ($user_role->name == 'Unverified')
-                                                        @php $badgeClass = 'danger' @endphp
-                                                    @else
-                                                        @php $badgeClass = 'default' @endphp
-                                                    @endif
-                                                    <span class="badge badge-{{$badgeClass}}">{{ $user_role->name }}</span>
-                                                @endforeach
-                                            </td>
-                                            <td class="hidden-sm hidden-xs hidden-md">{{$user->created_at}}</td>
-                                            <td class="hidden-sm hidden-xs hidden-md">{{$user->updated_at}}</td>
-                                            <td>
-                                                {!! Form::open(array('url' => 'users/' . $user->id, 'class' => '', 'data-toggle' => 'tooltip', 'title' => 'Delete')) !!}
-                                                    {!! Form::hidden('_method', 'DELETE') !!}
-                                                    {!! Form::button(trans('usersmanagement.buttons.delete'), array('class' => 'btn btn-danger btn-sm','type' => 'button', 'style' =>'width: 100%;' ,'data-toggle' => 'modal', 'data-target' => '#confirmDelete', 'data-title' => 'Delete User', 'data-message' => 'Are you sure you want to delete this user ?')) !!}
-                                                {!! Form::close() !!}
-                                            </td>
-                                            <td>
-                                                <a class="btn btn-sm btn-success btn-block" href="{{ URL::to('users/' . $user->id) }}" data-toggle="tooltip" title="Show">
-                                                    {!! trans('usersmanagement.buttons.show') !!}
-                                                </a>
-                                            </td>
-                                            <td>
-                                                <a class="btn btn-sm btn-info btn-block" href="{{ URL::to('users/' . $user->id . '/edit') }}" data-toggle="tooltip" title="Edit">
-                                                    {!! trans('usersmanagement.buttons.edit') !!}
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    @endforeach
+                                   
                                 </tbody>
-                                <tbody id="search_results"></tbody>
-                                @if(config('usersmanagement.enableSearchUsers'))
-                                    <tbody id="search_results"></tbody>
-                                @endif
+                                
 
                             </table>
 
@@ -145,21 +105,33 @@
             </div>
         </div>
     </div>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+search();
+function search(query ='')
+{
 
-    @include('modals.modal-delete')
-
+    $.ajax({
+        url:"{{route('search-users.search')}}",
+        method:'GET',
+        data:{query:query},
+        dataType:'json',
+        success:function(data)
+        {
+            $('tbody').html(data.table_data);
+        }
+    });
+}
+$(document).on('keyup','#search',function(){
+    var query=$(this).val();
+    search(query);
+})
+</script>
+@include('modals.modal-delete')
+@include('scripts.delete-modal-script')
 @endsection
 
 @section('footer_scripts')
-    @if ((count($users) > config('usersmanagement.datatablesJsStartCount')) && config('usersmanagement.enabledDatatablesJs'))
-        @include('scripts.datatables')
-    @endif
-    @include('scripts.delete-modal-script')
-    @include('scripts.save-modal-script')
-    @if(config('usersmanagement.tooltipsEnabled'))
-        @include('scripts.tooltips')
-    @endif
-    @if(config('usersmanagement.enableSearchUsers'))
-        @include('scripts.search-users')
-    @endif
+    
+    
 @endsection

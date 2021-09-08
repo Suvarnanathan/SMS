@@ -20,6 +20,13 @@ Route::namespace('App\Http\Controllers')->group(function () {
     Route::get('/user-home', 'UserController@home');
     Route::resource('participated-sports', 'participatedSportsController');
     Route::put('participated-sports/{id}/update', 'participatedSportsController@update');
+    Route::delete('deleteChecked', 'participatedSportsController@deleteChked')->name('user.deleteChecked');
+    Route::get('/events/create', 'EventController@create');
+    Route::post('/events/store', 'EventController@store')->name('events.store');
+    Route::get('/events', 'EventController@index');
+    Route::get('/search', 'UsersManagementController@search')->name('search-users.search');
+    Route::get('users/destroy/{id}', 'UsersManagementController@destroy');
+
 });
 /* geremykennady pakage */
 // Homepage Route
@@ -119,12 +126,12 @@ Route::group(['middleware' => ['auth', 'activated', 'role:admin||user', 'activit
         'names' => [
             'index'   => 'users',
             'destroy' => 'user.destroy',
+
         ],
         'except' => [
             'deleted',
         ],
     ]);
-    Route::post('search-users', 'App\Http\Controllers\UsersManagementController@search')->name('search-users');
 
     Route::resource('themes', \App\Http\Controllers\ThemesManagementController::class, [
         'names' => [

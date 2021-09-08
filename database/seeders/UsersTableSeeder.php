@@ -58,6 +58,24 @@ class UsersTableSeeder extends Seeder
 
             $user->attachRole($userRole);
             $user->save();
-        }
+        }   
+
+        $user = User::where('email', '=', 'user@user1.com')->first();
+        if ($user === null) {
+            $user = User::create([
+                'name'                           => 'User1',
+                'first_name'                     => 'sorna',
+                'last_name'                      => 'nathan',
+                'email'                          => 'user@user1.com',
+                'password'                       => Hash::make('password'),
+                'token'                          => str_random(64),
+                'activated'                      => true,
+                'signup_ip_address'              => '127.0.0.1',
+                'signup_confirmation_ip_address' => '127.0.0.1',
+            ]);
+
+            $user->attachRole($userRole);
+            $user->save();
+        } 
     }
 }

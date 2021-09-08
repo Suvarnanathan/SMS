@@ -17,7 +17,7 @@ class participatedSportsController extends Controller
     {
         $users=User::whereHas('roles', function($q){
             $q->where('name','User');
-        })->get();  
+        })->paginate(5);  
         return view('participants',compact('users'));
     }
 
@@ -125,6 +125,18 @@ class participatedSportsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function deleteChked(Request $request)
+    {
+        dd('hi');
+        $ids=$request->allids;
+        $users=User::find($ids);
+        foreach($users as $user)
+        {
+            $user->events()->where('user_id', $user->id)->detach();
+
+        }
+
+    }
     public function destroy($id)
     {
         //

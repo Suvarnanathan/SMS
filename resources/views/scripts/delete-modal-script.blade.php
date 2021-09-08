@@ -1,16 +1,25 @@
 <script type="text/javascript">
 
-	// CONFIRMATION DELETE MODAL
-	$('#confirmDelete').on('show.bs.modal', function (e) {
-		var message = $(e.relatedTarget).attr('data-message');
-		var title = $(e.relatedTarget).attr('data-title');
-		var form = $(e.relatedTarget).closest('form');
-		$(this).find('.modal-body span').text(message);
-		$(this).find('.modal-title').text(title);
-		$(this).find('.modal-footer #confirm').data('form', form);
-	});
-	$('#confirmDelete').find('.modal-footer #confirm').on('click', function(){
-	  	$(this).data('form').submit();
-	});
+	var user_id;
+
+$(document).on('click', '.delete', function(){
+ user_id = $(this).attr('data-id');
+ $('#confirmModal').modal('show');
+});
+
+$('#ok_button').click(function(){
+ $.ajax({
+  url:"users/destroy/"+user_id,
+  beforeSend:function(){
+   $('#ok_button').text('Deleting...');
+  },
+  success:function(data)
+  {
+   
+	$('#confirmModal').modal('hide');
+	window.location.reload();  }
+ });
+});
+
 
 </script>

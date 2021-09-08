@@ -98,12 +98,14 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
+              @role('user')
               <li class="nav-item">
                 <a href="/participated-sports/create" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Add partcipatedSports</p>
                 </a>
               </li>
+              @endrole
               <li class="nav-item">
                 <a href="/participated-sports" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>

@@ -225,20 +225,14 @@ class UsersManagementController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy($id)
     {
-        $currentUser = Auth::user();
-        $ipAddress = new CaptureIpTrait();
-
-        if ($user->id !== $currentUser->id) {
-            $user->deleted_ip_address = $ipAddress->getClientIp();
-            $user->save();
-            $user->delete();
+        $user=User::find($id);
+        $user->delete();
 
             return redirect('users')->with('success', trans('usersmanagement.deleteSuccess'));
-        }
+        
 
-        return back()->with('error', trans('usersmanagement.deleteSelfError'));
     }
 
     /**
@@ -250,38 +244,63 @@ class UsersManagementController extends Controller
      */
     public function search(Request $request)
     {
-        $searchTerm = $request->input('user_search_box');
-        $searchRules = [
-            'user_search_box' => 'required|string|max:255',
-        ];
-        $searchMessages = [
-            'user_search_box.required' => 'Search term is required',
-            'user_search_box.string'   => 'Search term has invalid characters',
-            'user_search_box.max'      => 'Search term has too many characters - 255 allowed',
-        ];
+        if($request->ajax())
+        {
+            $output='';
 
-        $validator = Validator::make($request->all(), $searchRules, $searchMessages);
+            $query=$request->get('query');
+            if($query!='')
+            {
 
-        if ($validator->fails()) {
-            return response()->json([
-                json_encode($validator),
-            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+                $data=User::where('first_name','like','%'.$query.'%')->get();
+            }
+                
+           
+        
+        else{
+            $data=User::all();
         }
+        $totalRow=$data->count();
+                if($totalRow>0)
+                {
+                    foreach($data as $user)
+                    {
+                    //     $deletecell='<form method="POST" action="/users/'. $user->id .'" accept-charset="UTF-8" data-toggle="tooltip" title="Delete">
+                        
+                    //     <a class="remove" type="button"  data-toggle="modal" data-target="#confirmDelete" data-title="Delete User" data-message="{!! trans("usersmanagement.modals.delete_user_message") !!}">
+                    //     delete
+                    //     </a>
+                    // </form>';
+                        $output.='  
+                        <tr>
+                            <td>'.$user->id.'</td>
+                            <td>'.$user->name.'</td>
+                            <td>'.$user->email.'</td>
+                            <td>'.$user->first_name.'</td>
+                            <td>'.$user->last_name.'</td>
+                            <td></td>
+                            <td>'.$user->created_at.'</td>
+                            <td>'.$user->updated_at.'</td>
+                            <td><a class="btn btn-sm btn-success btn-block"href="users/'.$user->id.'">show</a></td>
+                            <td><a class="btn btn-sm btn-info btn-block"href="users/'.$user->id.'/edit">edit</a></td>
+                            <td><a class="btn btn-sm btn-danger btn-block delete" data-id="'.$user->id.'"href="#">delete</a>
+                        </td>
+                        </tr> ';
+                    }
+                }
+                else{
+                    $Output='
+                    <tr>
+                        <td>No Results</td>
+                    </tr>
+                    ';
+                }
 
-        $results = User::where('id', 'like', $searchTerm.'%')
-                            ->orWhere('name', 'like', $searchTerm.'%')
-                            ->orWhere('email', 'like', $searchTerm.'%')->get();
-
-        // Attach roles to results
-        foreach ($results as $result) {
-            $roles = [
-                'roles' => $result->roles,
-            ];
-            $result->push($roles);
-        }
-
-        return response()->json([
-            json_encode($results),
-        ], Response::HTTP_OK);
+                $data = array(
+                    'table_data'=>$output
+                );
+                echo json_encode($data);
+            }
     }
+
 }

@@ -30,6 +30,6 @@ class UserController extends Controller
         if ($user->isAdmin()) {
             return redirect('/participated-sports');
         }
-        return redirect('/user-home');
+        return redirect('/participated-sports');
       }
 }

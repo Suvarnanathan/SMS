@@ -1,7 +1,6 @@
 <div class="row" style="margin-right:75px;">
     <div class="col-sm-8 offset-sm-4 col-md-6 offset-md-6 col-lg-5 offset-lg-7 col-xl-4 offset-xl-8">    
-        <form action="/search-books" method="POST" class="needs-validation" id="search_books" >
-       @csrf 
+         
             <div class="input-group">
             <input type="text" class="form-control" style="height:35px"name="book_search_box" id="book_search_box"placeholder="Search">
                 <div class="input-group-append">
@@ -15,6 +14,5 @@
              </a>
                 </div>
             </div>
-</form>    
 </div>
 </div>
